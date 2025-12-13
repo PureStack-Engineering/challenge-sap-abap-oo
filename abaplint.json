@@ -1,0 +1,36 @@
+{
+  "global": {
+    "files": "/src/**/*.*"
+  },
+  "dependencies": [
+    {
+      "url": "https://github.com/abapedia/steampunk-2305-api",
+      "folder": "/deps",
+      "files": "/src/**/*.*"
+    }
+  ],
+  "syntax": {
+    "version": "v750",
+    "errorNamespace": "^(Z|Y)"
+  },
+  "rules": {
+    "check_syntax": true,
+    "parser_error": true,
+    "allowed_object_types": {
+      "allowed": ["CLAS", "INTF", "PROG"]
+    },
+    "check_include": true,
+    "begin_end_names": true,
+    "check_ddic": true,
+    "implement_methods": true,
+    "method_implemented_twice": true,
+    "parser_missing_space": true,
+    "use_new": true,
+    "when_others_last": true,
+    "avoid_use": {
+      "define": true,
+      "break": true,
+      "statics": true
+    }
+  }
+}
