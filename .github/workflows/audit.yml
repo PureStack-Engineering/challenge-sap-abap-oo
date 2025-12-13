@@ -1,0 +1,22 @@
+name: PureStack SAP Audit
+on: [push, pull_request]
+
+jobs:
+  abap-lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install abaplint
+      run: |
+        npm install @abaplint/cli -g
+        npm install @abaplint/runtime -g
+
+    - name: Run Static Analysis (The Audit)
+      run: abaplint
+      # Esto leerá el archivo abaplint.json y validará todo el código en /src
