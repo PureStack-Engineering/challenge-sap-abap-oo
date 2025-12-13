@@ -16,13 +16,16 @@ Your mission is to implement the logic using **Modern ABAP** techniques.
 2.  **Constraint:** Do NOT use `LOOP AT` for simple summations. Use `REDUCE` or similar functional expressions.
 3.  **Clean Code:** Ensure variables are named correctly and no obsolete keywords are used.
 
+---
+
+**Requirement:** Do not move the `.abap` file out of the `src/` folder.
+
 ### 🚨 CRITICAL: How to work without SAP
 You do **not** need an SAP Server (NetWeaver) to pass this challenge.
-1.  We check your logic using **Static Analysis**.
-2.  You can write the code in VS Code (with ABAP extensions) or a text editor.
-3.  As long as the syntax is valid according to ABAP v7.50 standards, you pass.
 
----
+1. We check your logic using **Static Analysis**.
+2. You can write the code in VS Code (recommended extension: *ABAP remote filesystem*) or any text editor.
+3. As long as the syntax is valid according to ABAP v7.50 standards, you pass.
 
 ### 🛠️ Tech Stack Requirements
 * **Language:** ABAP (Version 7.50+ syntax).
@@ -48,3 +51,18 @@ We will clone your repo and run `npm run abaplint`. We look for:
 ### 📂 Bonus Points (Elite Level)
 * Add a **Unit Test Local Class** (`CLASS ltcl_test DEFINITION FOR TESTING...`) inside the include. Even if it doesn't run on the server, showing you know how to write `cl_abap_unit_assert` scores high.
 
+---
+
+### 🚨 CRITICAL: Project Structure
+To ensure our **Automated Auditor** works correctly, you **MUST** respect this structure.
+The linter is configured to only check files inside the `src` folder.
+
+**Requirement:** Do not move the `.abap` file out of the `src/` folder.
+
+```text
+/
+├── .github/workflows/   # PureStack Audit System (DO NOT TOUCH)
+├── src/
+│   └── zcl_ps_refactor.clas.abap  # <--- YOUR CODE GOES HERE
+├── abaplint.json        # Linter rules (DO NOT TOUCH)
+└── README.md
