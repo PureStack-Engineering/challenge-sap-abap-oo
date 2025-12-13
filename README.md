@@ -1,54 +1,50 @@
-# 🏢 PureStack SAP Engineering Challenge: The Clean ABAP Protocol
+# 💎 PureStack ABAP Engineering Challenge: The OO Refactor
 
 ### Context
-Welcome to the PureStack Technical Validation Protocol for the SAP Ecosystem.
-We do not look for consultants who just "make it work". We look for engineers who build maintainable, robust, and **Modern ABAP** solutions.
+Welcome to the **PureStack Technical Validation Protocol** for SAP.
+Unlike traditional recruiting, we don't look for people who just "make it work" with spaghetti code. We audit for **Modern ABAP (7.40+)**, **Object-Oriented Design**, and **Clean Code**.
 
-**⚠️ The Standard:** We strictly forbid obsolete procedural statements (e.g., `HEADER LINE`, `FORM/PERFORM`). We expect **ABAP OO** and **New Syntax (7.40+)**.
+**⚠️ The Standard:** This repository uses **abaplint**. If your code contains syntax errors or obsolete statements (like `MOVE` instead of `=`), the automated audit will fail.
 
 ---
 
-### 🎯 The Objective: Refactoring "The Monolith"
-You are given a requirement to handle a **Sales Order Approval Process**.
-Instead of writing a chaotic Report, you must design a robust **Object-Oriented Solution**.
+### 🎯 The Objective
+You are receiving a legacy requirement. A class `ZCL_PS_REFACTOR` has been defined but not implemented correctly.
+Your mission is to implement the logic using **Modern ABAP** techniques.
 
-**The Requirement:**
-1.  Read Sales Orders (headers and items) for a specific customer.
-2.  Calculate the total net value.
-3.  If the total > 10,000 EUR, trigger an "Approval Workflow" (Simulated).
-4.  If the total <= 10,000 EUR, auto-release the order.
+1.  **Refactor:** Implement the method `calculate_total`.
+2.  **Constraint:** Do NOT use `LOOP AT` for simple summations. Use `REDUCE` or similar functional expressions.
+3.  **Clean Code:** Ensure variables are named correctly and no obsolete keywords are used.
+
+### 🚨 CRITICAL: How to work without SAP
+You do **not** need an SAP Server (NetWeaver) to pass this challenge.
+1.  We check your logic using **Static Analysis**.
+2.  You can write the code in VS Code (with ABAP extensions) or a text editor.
+3.  As long as the syntax is valid according to ABAP v7.50 standards, you pass.
+
+---
 
 ### 🛠️ Tech Stack Requirements
-* **Language:** ABAP (NetWeaver 7.40 or higher syntax).
-* **Methodology:** Object-Oriented Programming (Global or Local Classes).
-* **Format:** Plain text `.abap` files OR **abapGit** XML format (Preferred).
-* **Testing:** **ABAP Unit** (Local Test Classes) is mandatory.
+* **Language:** ABAP (Version 7.50+ syntax).
+* **Tooling:** abaplint (Node.js based linter).
+* **Paradigms:** ABAP Objects, Functional ABAP (`VALUE`, `REDUCE`, `COND`).
 
 ### 🧪 Evaluation Criteria (How we audit you)
-Since we run an offline audit, we review your code structure for:
+We will clone your repo and run `npm run abaplint`. We look for:
 
-1.  **Modern Syntax:** Usage of inline declarations (`DATA(var)`), value operators (`VALUE #( )`), and functional calls.
-2.  **Separation of Concerns:** Do you have separate classes for Data Access (DAO), Business Logic (Model), and Output?
-3.  **Clean Code:** Naming conventions, no magic numbers, and clear method signatures.
-4.  **ABAP Unit:** Did you mock the database access to test the logic in isolation?
+* **Green Lights:** Your code must pass the GitHub Actions workflow.
+* **Modern Syntax:** Usage of inline declarations (`DATA(lv_var)`).
+* **Performance:** Avoiding nested loops where possible.
+* **Code Cleanliness:** No dead code, no "magic numbers".
 
 ### 🚀 Getting Started
-
-1.  **Fork** this repository.
-2.  Create your solution files (e.g., `zcl_sales_approval.clas.abap`).
-3.  **Constraint:** You cannot rely on standard tables (VBAK/VBAP) existing in our review system. You must define Types or Interfaces to abstract them.
-4.  Write a local test class (`ltcl_test`) validating the >10k logic.
-5.  Submit via Pull Request.
-
-> **Note:** If you don't have access to an SAP System, you can write the code in any editor. We check for *syntax correctness* and *architectural design*, not run-time execution.
-
----
+1. **Fork** this repository.
+2. (Optional) Install abaplint locally to test: `npm install -g @abaplint/cli`.
+3. Open `src/zcl_ps_refactor.clas.abap`.
+4. **Implement the ABAP logic**.
+5. Run checks locally: `abaplint` (or rely on the GitHub Action).
+6. Submit via Pull Request.
 
 ### 📂 Bonus Points (Elite Level)
-* Use **Exception Classes** (`CX_...`) instead of `SY-SUBRC` checks.
-* Implement the **Factory Pattern** to instantiate your classes.
+* Add a **Unit Test Local Class** (`CLASS ltcl_test DEFINITION FOR TESTING...`) inside the include. Even if it doesn't run on the server, showing you know how to write `cl_abap_unit_assert` scores high.
 
-
-* Provide the solution in **abapGit** compatible format.
-
-> **PureStack Engineering.** Validated by Code.
