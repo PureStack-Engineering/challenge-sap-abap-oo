@@ -1,5 +1,7 @@
 # 💎 PureStack ABAP Engineering Challenge: The OO Refactor
 
+PureStack.es - Engineering. Validated by Code.
+
 ### Context
 Welcome to the **PureStack Technical Validation Protocol** for SAP.
 Unlike traditional recruiting, we don't look for people who just "make it work" with spaghetti code. We audit for **Modern ABAP (7.40+)**, **Object-Oriented Design**, and **Clean Code**.
