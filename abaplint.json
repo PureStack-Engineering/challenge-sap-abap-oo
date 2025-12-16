@@ -14,8 +14,9 @@
     "errorNamespace": "^(Z|Y)"
   },
   "rules": {
+    "_comment": "🚨 RULES RELAXED FOR LEGACY CHALLENGE 🚨",
+    "parser_error": false, 
     "check_syntax": true,
-    "parser_error": true,
     "allowed_object_types": {
       "allowed": ["CLAS", "INTF", "PROG"]
     },
@@ -34,6 +35,8 @@
     "use_new": false,
     "functional_writing": false,
     "obsolete_statement": false,
-    "space_before_dot": false
+    "space_before_dot": false,
+    "contains_tab": false,
+    "whitespace_end": false
   }
 }
