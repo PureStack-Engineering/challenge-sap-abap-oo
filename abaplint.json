@@ -10,7 +10,7 @@
     }
   ],
   "syntax": {
-    "version": "v702", 
+    "version": "v750",
     "errorNamespace": "^(Z|Y)"
   },
   "rules": {
@@ -24,7 +24,7 @@
     "check_ddic": true,
     "implement_methods": true,
     "method_implemented_twice": true,
-    "parser_missing_space": true,
+    "parser_missing_space": false,
     "when_others_last": true,
     "avoid_use": {
       "define": true,
@@ -33,6 +33,7 @@
     },
     "use_new": false,
     "functional_writing": false,
-    "obsolete_statement": false
+    "obsolete_statement": false,
+    "space_before_dot": false
   }
 }
