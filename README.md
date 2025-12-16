@@ -6,82 +6,87 @@
 ---
 
 ### 📋 Context & Mission
-Welcome to the PureStack Technical Validation Protocol for SAP ecosystem.
-Unlike traditional recruiting, we don't ask for transaction codes. We audit your ability to write **Object-Oriented Design**, **Clean Code**, and **Modern ABAP** syntax without relying on the GUI.
+Welcome to the PureStack Technical Validation Protocol for the SAP ecosystem.
+Unlike traditional recruiting, we don't ask for transaction codes. We audit your ability to write **Object-Oriented Design**, **Clean Code**, and **Modern ABAP** syntax.
 
-**The Mission:** You are receiving a "Legacy" requirement. A class `ZCL_PS_REFACTOR` has been defined but requires implementation.
-**The Constraint:** You do **not** need an SAP Server (NetWeaver) to pass this challenge. We validate your logic using **Static Analysis (abaplint)**.
+**The Mission:** You are receiving a "Legacy" class (`ZCL_PS_REFACTOR`) that calculates loan interest rates. The logic works, but it's written in archaic ABAP (Nested IFs, no separation of concerns).
+**The Goal:** Refactor the method `calculate_loan` to use Modern ABAP syntax without breaking the business logic.
 
 ### 🚦 Certification Levels (Choose your Difficulty)
-Your seniority is defined by how much you leverage Modern ABAP features versus procedural statements. State your target level in your Pull Request.
+State your target level in your Pull Request.
 
 #### 🥉 Level 3: Essential / Mid-Level
-* **Focus:** Modern Syntax (7.40+) & Correctness.
-* **Requirement:** Implement `calculate_total` passing the linter checks.
+* **Focus:** Modern Syntax (7.40+) & Readability.
+* **Requirement:** Refactor the existing logic to be cleaner.
 * **Tasks:**
-    1.  **Refactor:** Implement the business logic using **Inline Declarations** (`DATA(lv_var)`).
-    2.  **Clean Up:** Ensure no obsolete statements are used (e.g., use `=` instead of `MOVE`).
-    3.  **Logic:** Calculate the total value of items safely.
-* **Deliverable:** A syntactically correct class that passes the `abaplint` check (Green Light).
+    1.  **Inline Declarations:** Replace old `DATA: ...` statements with inline data (`DATA(lv_var)`).
+    2.  **Constants:** Replace "Magic Numbers" (e.g., `100000`, `10`, `5.0`) with proper private Constants (`co_threshold_high`, `co_rate_vip`).
+    3.  **Cleanup:** Remove the nested `IF/ELSE` hell where possible.
+* **Deliverable:** A clean class where the logic is easy to read.
 
 #### 🥈 Level 2: Pro / Senior
-* **Focus:** Functional ABAP & Expression Oriented Programming.
-* **Requirement:** Everything in Level 3 + **Functional Expressions**.
+* **Focus:** Functional Expressions (Expression Oriented Programming).
+* **Requirement:** Everything in Level 3 + **SWITCH & COND**.
 * **Extra Tasks:**
-    1.  **No Loops:** Do NOT use `LOOP AT` for simple summations or lookups. Use **`REDUCE`**, **`FILTER`**, or **`VALUE`** operators.
-    2.  **Exception Handling:** Implement a proper `TRY...CATCH` block for potential overflows or data inconsistencies.
-    3.  **Readability:** Use `CORRESPONDING` or `COND` operators where applicable to reduce code lines.
+    1.  **Switch:** Replace the `IF iv_customer = 'VIP'...` logic with a `SWITCH #( ... )` constructor.
+    2.  **Cond:** Replace the numeric comparisons for logic with `COND #( ... )`.
+    3.  **Refactoring:** The method should ideally be reduced to 1-3 statements using functional chaining, removing all intermediate variables if possible.
 * **Deliverable:** Concise, expressive code that demonstrates mastery of ABAP 7.50+.
 
 #### 🥇 Level 1: Elite / Architect
-* **Focus:** ABAP Unit & Testability.
-* **Requirement:** Everything above + **Local Unit Tests (TDD)**.
+* **Focus:** ABAP Unit & TDD.
+* **Requirement:** Everything above + **Unit Testing**.
 * **Extra Tasks:**
-    1.  **ABAP Unit:** Define a Local Test Class (`CLASS ltcl_test DEFINITION FOR TESTING...`) inside the include.
-    2.  **Test Implementation:** Write a test method that mocks the input data and calls your `calculate_total` method, asserting the result using `cl_abap_unit_assert`.
-        * *Note:* Even if the test cannot run strictly without a NetWeaver server, writing the **valid test code** proves you understand TDD in SAP.
-    3.  **KISS Principle:** Ensure the complexity is low. Over-engineering will be penalized.
-* **Deliverable:** A class that is not only functional but fully testable and self-documenting.
+    1.  **Test Class:** Open `src/zcl_ps_refactor.clas.testclasses.abap`.
+    2.  **Coverage:** Implement a Test Class (`ltcl_test`) that instantiates your class and verifies the output for:
+        * A VIP Customer.
+        * A Standard Customer with High Amount.
+        * A Standard Customer with Low Amount.
+    3.  **Assertions:** Use `cl_abap_unit_assert=>assert_equals` to validate results.
+* **Deliverable:** A class that is not only functional but fully testable and verified by code.
 
 ---
 
 ### 🛠️ Tech Stack & Constraints
 * **Language:** ABAP (Version 7.50+ syntax).
-* **Tooling:** abaplint (Node.js based linter) runs on GitHub Actions.
-* **Paradigms:** ABAP Objects, Functional ABAP (`VALUE`, `REDUCE`, `COND`).
-* **Environment:** No SAP Server required. Code is checked statically.
+* **Tooling:** `abaplint` (Static Analysis) runs on GitHub Actions.
+* **Environment:** No SAP Server (NetWeaver) required. The code is checked statically.
+* **Logic:** The inputs are Strings and Floats. Keep the signature of `calculate_loan` intact.
 
 ---
 
 ### 🚀 Execution Instructions
 
 1.  **Fork** this repository.
-2.  (Optional) Install abaplint locally to test: `npm install -g @abaplint/cli`.
-3.  Open `src/zcl_ps_refactor.clas.abap`.
-4.  **Implement the ABAP logic** directly in the file.
-5.  Run checks locally: `abaplint` (or rely on the GitHub Action).
-6.  Submit via **Pull Request** stating your target Level.
+2.  (Optional) Install abaplint locally: `npm install -g @abaplint/cli`.
+3.  **Refactor Logic:** Edit `src/zcl_ps_refactor.clas.abap`.
+4.  **Add Tests (Level 1):** Edit `src/zcl_ps_refactor.clas.testclasses.abap`.
+5.  Run checks:
+    ```bash
+    abaplint
+    ```
+6.  Submit via **Pull Request**.
 
 ### 🧪 Evaluation Criteria (PureStack Audit)
 
 | Criteria | Weight | Audit Focus |
 | :--- | :--- | :--- |
-| **Modern Syntax** | 35% | Usage of `DATA()`, `REDUCE`, `VALUE` vs legacy statements. |
-| **Clean Code** | 30% | Variable naming, method length, and lack of obsolete keywords. |
-| **Performance** | 20% | Avoiding nested loops or unnecessary table reads. |
-| **Testability** | 15% | Presence of Local Unit Test classes (Level 1). |
+| **Modern Syntax** | 35% | Usage of `SWITCH`, `COND`, `VALUE` vs `IF/ELSE`. |
+| **Clean Code** | 30% | Usage of Constants vs Magic Numbers. |
+| **Testability** | 20% | Presence of working Unit Tests (Level 1). |
+| **Formatting** | 15% | Proper indentation and Pretty Printer style. |
 
 ---
 
 ### 🚨 Project Structure (Strict)
-The linter is configured to only check files inside the `src` folder.
-
-**Requirement:** Do NOT move or rename the `.abap` file.
+Do NOT move or rename the files.
 
 ```text
 /
-├── .github/workflows/   # PureStack Audit System (DO NOT TOUCH)
+├── .github/workflows/                 # PureStack Audit System
 ├── src/
-│   └── zcl_ps_refactor.clas.abap  # <--- YOUR CODE GOES HERE
-├── abaplint.json        # Linter rules (Standard Configuration)
+│   ├── zcl_ps_refactor.clas.abap      # <--- YOUR LOGIC HERE
+│   ├── zcl_ps_refactor.clas.xml       # Metadata (Do not touch)
+│   └── zcl_ps_refactor.clas.testclasses.abap # <--- YOUR TESTS HERE
+├── abaplint.json                      # Linter Rules
 └── README.md
