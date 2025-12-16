@@ -25,12 +25,14 @@
     "implement_methods": true,
     "method_implemented_twice": true,
     "parser_missing_space": true,
-    "use_new": true,
     "when_others_last": true,
     "avoid_use": {
       "define": true,
       "break": true,
       "statics": true
-    }
+    },
+    "use_new": false,
+    "functional_writing": false,
+    "obsolete_statement": false
   }
 }
