@@ -14,29 +14,23 @@
     "errorNamespace": "^(Z|Y)"
   },
   "rules": {
-    "_comment": "🚨 RULES RELAXED FOR LEGACY CHALLENGE 🚨",
-    "parser_error": false, 
+    "7bit_ascii": true,
+    "parser_error": true,
     "check_syntax": true,
-    "allowed_object_types": {
-      "allowed": ["CLAS", "INTF", "PROG"]
-    },
-    "check_include": true,
+    "obsolete_statement": true,
     "begin_end_names": true,
     "check_ddic": true,
+    "form_tables_obsolete": true,
+    "functional_writing": true,
+    "global_class": true,
     "implement_methods": true,
     "method_implemented_twice": true,
-    "parser_missing_space": false,
     "when_others_last": true,
     "avoid_use": {
       "define": true,
       "break": true,
-      "statics": true
-    },
-    "use_new": false,
-    "functional_writing": false,
-    "obsolete_statement": false,
-    "space_before_dot": false,
-    "contains_tab": false,
-    "whitespace_end": false
+      "statics": true,
+      "default_key": true
+    }
   }
 }
