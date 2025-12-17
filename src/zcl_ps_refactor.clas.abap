@@ -4,16 +4,12 @@ CLASS zcl_ps_refactor DEFINITION
   CREATE PUBLIC .
 
   PUBLIC SECTION.
-    DATA mv_result TYPE f.
-
     METHODS calculate_loan
       IMPORTING
-        iv_customer TYPE string
-        iv_amount   TYPE f
-        iv_years    TYPE i
+        iv_amount      TYPE f
+        iv_customer_type TYPE string
       RETURNING
         VALUE(rv_rate) TYPE f.
-
   PROTECTED SECTION.
   PRIVATE SECTION.
 ENDCLASS.
@@ -21,39 +17,26 @@ ENDCLASS.
 CLASS zcl_ps_refactor IMPLEMENTATION.
 
   METHOD calculate_loan.
-    DATA lv_score TYPE i.
+    " TODO: Refactor this method to use Modern ABAP (7.50+)
+    " Current State: Legacy, Nested IFs, Magic Numbers.
 
-    " Logic for VIP Customers
-    IF iv_customer = 'VIP'.
-      lv_score = '10'.
-    ELSEIF iv_customer = 'STANDARD'.
-      lv_score = '5'.
-    ELSE.
-      lv_score = '1'.
-    ENDIF.
+    DATA: lv_interest TYPE f.
 
-    " Logic for High Risk
-    IF iv_amount > '100000'.
-      IF lv_score < '5'.
-        rv_rate = '5.0'.
+    IF iv_amount > 100000.
+      IF iv_customer_type = 'VIP'.
+        MOVE 1.5 TO lv_interest.
       ELSE.
-        rv_rate = '3.5'.
+        MOVE 3.5 TO lv_interest.
       ENDIF.
     ELSE.
-      " Low amount logic
-      IF iv_years > '10'.
-         rv_rate = '2.5'.
+      IF iv_customer_type = 'VIP'.
+        MOVE 2.0 TO lv_interest.
       ELSE.
-         rv_rate = '1.5'.
+        MOVE 5.0 TO lv_interest.
       ENDIF.
     ENDIF.
 
-    " Weird business exception
-    IF iv_customer = 'EMPLOYEE'.
-       rv_rate = '0.5'.
-    ENDIF.
-
-    mv_result = rv_rate.
+    rv_rate = lv_interest.
 
   ENDMETHOD.
 ENDCLASS.
