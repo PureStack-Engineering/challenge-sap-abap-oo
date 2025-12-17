@@ -12,48 +12,37 @@ jobs:
     name: 💎 ABAP Quality Gate
 
     steps:
-    - name: 📥 Checkout Code
-      uses: actions/checkout@v3
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v3
 
-    - name: 🔍 Phase 1: Structural Integrity
-      run: |
-        echo "::group::File Structure Validation"
-        if [ ! -f "src/zcl_ps_refactor.clas.abap" ]; then echo "❌ Missing: Class implementation file"; exit 1; fi
-        if [ ! -f "src/zcl_ps_refactor.clas.xml" ]; then echo "❌ Missing: Class Metadata file (.xml)"; exit 1; fi
-        if [ ! -f "abaplint.json" ]; then echo "❌ Missing: Linter Configuration (abaplint.json)"; exit 1; fi
-        echo "✅ ABAP Git Structure is valid."
-        echo "::endgroup::"
+      - name: 🔍 Phase 1 Structural Integrity
+        run: |
+          echo "::group::File Structure Validation"
+          if [ ! -f "src/zcl_ps_refactor.clas.abap" ]; then echo "❌ Missing: Class implementation file"; exit 1; fi
+          if [ ! -f "src/zcl_ps_refactor.clas.xml" ]; then echo "❌ Missing: Class Metadata file (.xml)"; exit 1; fi
+          if [ ! -f "abaplint.json" ]; then echo "❌ Missing: Linter Configuration (abaplint.json)"; exit 1; fi
+          echo "✅ ABAP Git Structure is valid."
+          echo "::endgroup::"
 
-    - name: 🕵️ Phase 2: Archaic Syntax Detection (The Fossil Hunter)
-      run: |
-        echo "::group::Modern ABAP Check"
-        # Ban 'CALL METHOD' (Verbose) -> Use functional method( )
-        if grep -i "CALL METHOD" src/zcl_ps_refactor.clas.abap; then 
-          echo "❌ CRITICAL: 'CALL METHOD' detected. Use functional style 'method( )'."
-          exit 1
-        fi
-        
-        # Ban 'MOVE' (Obsolete) -> Use '='
-        if grep -i "MOVE " src/zcl_ps_refactor.clas.abap | grep -v "MOVE-CORRESPONDING"; then 
-          echo "❌ CRITICAL: 'MOVE' statement detected. Use assignment operator '='."
-          exit 1
-        fi
+      - name: 🕵️ Phase 2 Archaic Syntax Detection
+        run: |
+          echo "::group::Modern ABAP Check"
+          # Ban 'CALL METHOD'
+          if grep -i "CALL METHOD" src/zcl_ps_refactor.clas.abap; then echo "❌ CRITICAL: 'CALL METHOD' detected. Use functional style."; exit 1; fi
+          # Ban 'MOVE' (excluding MOVE-CORRESPONDING)
+          if grep -i "MOVE " src/zcl_ps_refactor.clas.abap | grep -v "MOVE-CORRESPONDING"; then echo "❌ CRITICAL: 'MOVE' detected. Use '='."; exit 1; fi
+          # Ban 'COMPUTE'
+          if grep -i "COMPUTE " src/zcl_ps_refactor.clas.abap; then echo "❌ CRITICAL: 'COMPUTE' detected. Use '='."; exit 1; fi
+          echo "✅ No Archaic statements found."
+          echo "::endgroup::"
 
-        # Ban 'COMPUTE' (Obsolete) -> Use '='
-        if grep -i "COMPUTE " src/zcl_ps_refactor.clas.abap; then 
-          echo "❌ CRITICAL: 'COMPUTE' statement detected. Just use '='."
-          exit 1
-        fi
-        echo "✅ No Archaic statements found."
-        echo "::endgroup::"
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
 
-    - name: 🔧 Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
+      - name: 📦 Install abaplint
+        run: npm install @abaplint/cli -g
 
-    - name: 📦 Install abaplint
-      run: npm install @abaplint/cli -g
-
-    - name: 🧪 Phase 3: Static Analysis (Linter)
-      run: abaplint
+      - name: 🧪 Phase 3 Static Analysis
+        run: abaplint
