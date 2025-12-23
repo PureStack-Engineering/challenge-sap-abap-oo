@@ -3,6 +3,15 @@
 **PureStack.es - Engineering Validation Protocol.**
 > *"We don't look for people who just maintain legacy code. We audit for Modern ABAP (7.50+)."*
 
+> [!TIP]
+> **HOW TO START THIS CHALLENGE**
+> 1. Click the green **"Use this template"** button (top right) -> **"Create a new repository"**.
+> 2. Select **"Private"** visibility (Crucial to prevent spoilers).
+> 3. Clone your new private repository to your machine.
+> 4. Once finished, invite user **[JLMoraCastilla](https://github.com/JLMoraCastilla)** as a collaborator to review.
+>
+> ⚠️ **DO NOT FORK** this repository directly, as it will force your solution to be public.
+
 ---
 
 ### 📋 Context & Mission
@@ -13,7 +22,7 @@ Unlike traditional recruiting, we don't ask for transaction codes. We audit your
 **The Goal:** Refactor the method `calculate_loan` to use Modern ABAP syntax without breaking the business logic.
 
 ### 🚦 Certification Levels (Choose your Difficulty)
-State your target level in your Pull Request.
+State your target level in your Pull Request (or commit message).
 
 #### 🥉 Level 3: Essential / Mid-Level
 * **Focus:** Modern Syntax (7.40+) & Readability.
@@ -57,7 +66,7 @@ State your target level in your Pull Request.
 
 ### 🚀 Execution Instructions
 
-1.  **Fork** this repository.
+1.  **Use the Template:** Create your **Private Repository** using the instructions at the top of this file.
 2.  (Optional) Install abaplint locally: `npm install -g @abaplint/cli`.
 3.  **Refactor Logic:** Edit `src/zcl_ps_refactor.clas.abap`.
 4.  **Add Tests (Level 1):** Edit `src/zcl_ps_refactor.clas.testclasses.abap`.
@@ -65,7 +74,7 @@ State your target level in your Pull Request.
     ```bash
     abaplint
     ```
-6.  Submit via **Pull Request**.
+6.  **Submit:** Push your changes to your private repo and invite the reviewer.
 
 ### 🧪 Evaluation Criteria (PureStack Audit)
 
@@ -90,3 +99,18 @@ Do NOT move or rename the files.
 │   └── zcl_ps_refactor.clas.testclasses.abap # <--- YOUR TESTS HERE
 ├── abaplint.json                      # Linter Rules
 └── README.md
+```
+---
+## ⚖️ License & Legal Notice
+
+**© 2025 PureStack.es. All Rights Reserved.**
+
+This repository is "Source Available" for **evaluation purposes only**.
+
+* **Public viewing:** Allowed.
+* **Commercial use:** ❌ Strictly Prohibited.
+* **Redistribution:** ❌ Strictly Prohibited.
+
+By accessing this material, you agree to the terms in `LICENSE.md`.
+
+> **🚫 Publishing solutions to public repositories is a violation of these terms.**
