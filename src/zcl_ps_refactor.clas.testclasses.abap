@@ -1,6 +1,3 @@
-" 🧪 TEST CLASSES (The Safety Net)
-" The candidate must NOT break these tests while refactoring.
-
 CLASS ltcl_refactor_test DEFINITION FINAL FOR TESTING
   DURATION SHORT
   RISK LEVEL HARMLESS.
